@@ -1,6 +1,6 @@
 # claude-code-update-notify
 
-Claude Code がアップデートされたとき、セッション開始時にリリースノートを自動で表示するフック。
+Claude Code がアップデートされたとき、セッション開始時にエージェントがリリースノートを要約して教えてくれるフック。
 
 [English](README.en.md)
 
