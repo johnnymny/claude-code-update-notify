@@ -84,6 +84,11 @@ def main():
     if VERSION_FILE.exists():
         old_ver = VERSION_FILE.read_text(encoding="utf-8").strip()
 
+    if not old_ver:
+        # First run — record current version silently, notify from next update
+        VERSION_FILE.write_text(current, encoding="utf-8")
+        return
+
     if old_ver == current:
         return
 
