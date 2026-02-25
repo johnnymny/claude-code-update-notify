@@ -14,7 +14,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-VERSION_FILE = Path.home() / ".claude" / ".claude-code-last-version"
+VERSION_FILE = Path.home() / ".claude" / "hooks" / ".claude-code-last-version"
 
 
 def get_current_version():
