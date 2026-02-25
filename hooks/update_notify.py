@@ -4,6 +4,11 @@ Compares current version against stored version. When different,
 fetches release notes via GitHub CLI and injects them into the session
 so the agent can summarize changes for the user.
 
+The hook does NOT update the version file. The agent must run:
+  echo -n "<version>" > ~/.claude/hooks/.claude-code-last-version
+after confirming the update was shown to the user.
+This prevents lost notifications when the session is discarded (e.g. /resume).
+
 Requirements:
 - Python 3.10+
 - GitHub CLI (gh) installed and authenticated
@@ -100,7 +105,10 @@ def main():
         print(f"[UPDATE] Claude Code updated: {old_ver or 'unknown'} -> {current}")
         print("Release notes unavailable. Inform the user of the version change.")
 
-    VERSION_FILE.write_text(current, encoding="utf-8")
+    # IMPORTANT: Do NOT update VERSION_FILE here.
+    # The agent must run this after confirming the notification was delivered:
+    #   echo -n "<current_version>" > ~/.claude/hooks/.claude-code-last-version
+    print(f"\n[ACTION REQUIRED] Run: echo -n \"{current}\" > ~/.claude/hooks/.claude-code-last-version")
 
 
 if __name__ == "__main__":

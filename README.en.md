@@ -88,11 +88,19 @@ gh auth status
 Session starts (new / /resume / post-compaction)
   → SessionStart hook fires
   → Gets current version via claude --version
-  → Compares with ~/.claude/.claude-code-last-version
+  → Compares with ~/.claude/hooks/.claude-code-last-version
   → If different, fetches release notes via gh release view
   → Injects into session (agent summarizes for user)
-  → Updates version file
+  → Agent updates version file
 ```
+
+**Note**: The hook does NOT update the version file itself. After the agent summarizes the release notes for the user, it runs:
+
+```bash
+echo -n "<version>" > ~/.claude/hooks/.claude-code-last-version
+```
+
+This ensures that if a session is discarded (e.g. via `/resume`), the notification will reappear in the next session.
 
 ## Files
 

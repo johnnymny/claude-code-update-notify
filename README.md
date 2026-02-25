@@ -88,11 +88,19 @@ gh auth status
 セッション開始（新規 / /resume / コンパクション後）
   → SessionStart hook 発火
   → claude --version で現在のバージョンを取得
-  → ~/.claude/.claude-code-last-version と比較
+  → ~/.claude/hooks/.claude-code-last-version と比較
   → 異なれば gh release view でリリースノートを取得
   → セッションに注入（エージェントが要約）
-  → バージョンファイルを更新
+  → エージェントがバージョンファイルを更新
 ```
+
+**注意**: hook はバージョンファイルを更新しません。エージェントがリリースノートをユーザーに伝えた後、以下を実行してバージョンファイルを更新します：
+
+```bash
+echo -n "<version>" > ~/.claude/hooks/.claude-code-last-version
+```
+
+これにより、`/resume` 等でセッションが破棄された場合でも、次回のセッションで再度通知されます。
 
 ## ファイル構成
 
